@@ -1,0 +1,58 @@
+<scene version="0.6.0">
+
+  <!-- Settings for focussed probe image -->
+  <default name="cropW" value="600"/>
+  <default name="cropH" value="600"/>
+  <default name="cropX" value="1024"/>
+  <default name="cropY" value="670"/>
+  
+  <include filename="includes/sensor_hf_setup.xml"/>
+
+  <default name="hfName" value="octagonalmesh" />
+  <default name="elastomerDist" value="13"/>
+  <default name="hfScale" value="-1"/>
+  <default name="gelMatFn" value="flat_elastomer_material"/>
+
+
+	<default name="pressedObjectName" value="unit_sphere"/>
+
+  <shape type="obj" id="pressedObj">
+    <boolean name="faceNormals" value="false"/>
+    <ref id="elastomerBsdf"/>
+
+    <transform name="toWorld">
+      <scale x=".2" y=".2" z=".2"/>
+      <rotate x="1" angle="90"/>
+      <rotate z="1" angle="180"/>
+      <!-- best y: -5.86 -->
+      <!-- <translate x="2" y="-5.86" z="-3.3"/> -->
+      <!-- <translate x="1.5" y="-5.86" z="0"/> -->
+      <!-- <translate x="-3.7" y="-5.86" z="-2.8"/> -->
+      <!-- <translate x="-3" y="-5.86" z="-2.4"/> -->
+      <!-- <translate x="-1" y="-5.86" z="-3"/> -->
+      <!-- <translate x="0" y="-5.86" z="0"/> -->
+      <translate x="1" y="-5.86" z="-2"/>
+      <translate x="0" y="$elastomerDist" z="0"/>
+    </transform>
+    <string name="filename" value="meshes/$pressedObjectName.obj"/>
+  </shape>
+
+
+  
+  <shape type="obj" name="gelpad">
+    <boolean name="faceNormals" value="false"/>
+    <transform name="toWorld">
+      <scale x="120" y="120" z="120"/>
+      <scale z="$hfScale"/>
+      <rotate x="1" angle="90"/>
+      <rotate z="1" angle="180"/>
+      <translate x="3" y="0" z="-1.5"/>
+      <translate x="0" y="$elastomerDist" z="0"/>
+    </transform>
+
+    <string name="filename" value="meshes/$hfName.obj"/>
+    
+    <ref id="elastomerBsdf"/>
+  </shape>
+
+</scene>
