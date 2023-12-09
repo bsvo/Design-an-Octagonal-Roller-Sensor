@@ -55,6 +55,20 @@ for imgname in imgnames:
     im_grad_y[~contact_area] = bg_grads_y[~contact_area] 
 
     im_grad_y[im_grad_y < 0] = 0
+    # coloredVals = np.where(im_grad_y>0)
+    # print(coloredVals[0])
+    # sumX = 0
+    # sumY = 0
+    # totalSum = 0
+    # for y,x in zip(coloredVals[0],coloredVals[1]):
+    #     sumX += im_grad_y[y,x] * x 
+    #     sumY += im_grad_y[y,x] * y
+    #     totalSum += im_grad_y[y,x]
+    # print((sumX/totalSum,sumY/totalSum))
+    # print(im_grad_y[im_grad_y > 0])
+    # for i in im_grad_y:
+    #     print(i)
+    # print(im_grad_y.shape)
 
 
     colormap = plt.cm.PuBu  
@@ -63,6 +77,7 @@ for imgname in imgnames:
 
     # Convert to image and save
     colored_image = Image.fromarray((colored_data * 255).astype('uint8'), 'RGBA')
+
     imgName = "recon" + str(count) +".png"
     colored_image.save(imgName)
 
