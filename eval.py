@@ -15,22 +15,7 @@ def list_png_files(root_directory):
     return png_files
   
 
-# blue channel centroid
-def calculate_centroids(directory):
-    allPngs = list_png_files(directory)
-    centroids = []
-    for i in allPngs:
-        img = Image.open(i)
-        print(img)
-        img = img.convert('RGB')
-        image_array = np.array(img)
-        indices = np.indices((image_array.shape[0], image_array.shape[1]))
-        channel = image_array[:, :, 2]
-        total_intensity = channel.sum()
-        x_centroid = (indices[1] * channel).sum() / total_intensity
-        y_centroid = (indices[0] * channel).sum() / total_intensity
-        centroids.append((x_centroid,y_centroid))
-    return centroids
+
 
 def MSEPSNR(original, compressed): 
     mse = np.mean((original - compressed) ** 2) 
@@ -63,12 +48,38 @@ def evalFly(directory):
         toReturn.append(MSEPSNR(re, ev))
     return toReturn
 
+def euclideanDist(p1,p2):
+    return np.sqrt((p1[0]-p2[0])*(p1[0]-p2[0]) + (p1[1]-p2[1])*(p1[1]-p2[1]))
+
+
 
 def main(): 
     # print("MSE","PSNA")
     # print(evalFly("./octagonal/eval/og")) 
 
-    print(calculate_centroids("./octagonal/eval/ball")) 
+    # print(calculate_centroids("./octagonal/eval/ball")) 
+    flyStats = [[0.12716, 57.087, 0.118, 57.413],
+    [0.136, 56.79, 0.09375,	58.411],
+    [0.20346, 55.046, 0.13787, 56.736],
+    [0.1287, 57.033, 0.0914, 58.5215],
+    [0.193,	55.28, 0.1225, 57.25],
+    [0.2069, 54.974, 0.116, 57.483]]
+
+    flyErr = np.array(flyStats)
+
+    # Average OG MSE, OG PCNA, BG RM MSE, BG RM PCNA
+    for i in range(len(flyErr[0])):
+        print(np.mean(flyErr[:,i]))
+
+    centroidStats = np.array([[(255.59,18.913),(253.86,31.73)],
+    [(385.61, 142.72),(378,149)],
+    [(86.675,202.845),(98.89, 201.89)],
+    [(337.139, 242.596),(332.27,237.165)]])
+
+    ballStats = np.array(centroidStats)
+
+    for c1,c2 in centroidStats:
+        print(0.12071 * euclideanDist(c1,c2))
 
 
 if __name__ == "__main__": 
